@@ -20,7 +20,7 @@ function AccountPage() {
     queryKey: ["my-orders", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const res = await fetch("http://localhost:8081/api/orders");
+      const res = await fetch("https://webbandep-2.onrender.com/api/orders");
       if (!res.ok) throw new Error("Failed to fetch orders");
       const data = await res.json();
       return data

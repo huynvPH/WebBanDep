@@ -24,7 +24,7 @@ function Vouchers() {
   const { data: vouchers = [] } = useQuery({
     queryKey: ["vouchers"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8081/api/vouchers");
+      const res = await fetch("https://webbandep-2.onrender.com/api/vouchers");
       if (!res.ok) throw new Error("Failed to fetch vouchers");
       const data = await res.json();
       return data.sort((a: any, b: any) => new Date(b.createdAt || b.created_at || 0).getTime() - new Date(a.createdAt || a.created_at || 0).getTime());
@@ -42,7 +42,7 @@ function Vouchers() {
         active: true,
         usedCount: 0,
       };
-      const res = await fetch("http://localhost:8081/api/vouchers", {
+      const res = await fetch("https://webbandep-2.onrender.com/api/vouchers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -58,12 +58,12 @@ function Vouchers() {
 
   const toggle = async (id: string, active: boolean) => {
     try {
-      const existingRes = await fetch(`http://localhost:8081/api/vouchers/${id}`);
+      const existingRes = await fetch(`https://webbandep-2.onrender.com/api/vouchers/${id}`);
       if (!existingRes.ok) throw new Error("Voucher not found");
       const voucher = await existingRes.json();
       const updated = { ...voucher, active };
 
-      const res = await fetch(`http://localhost:8081/api/vouchers/${id}`, {
+      const res = await fetch(`https://webbandep-2.onrender.com/api/vouchers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updated),

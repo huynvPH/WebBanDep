@@ -35,7 +35,7 @@ function Inventory() {
   const { data: products = [] } = useQuery({
     queryKey: ["inv"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8081/api/products");
+      const res = await fetch("https://webbandep-2.onrender.com/api/products");
       if (!res.ok) throw new Error("Failed to fetch products");
       const data = await res.json();
       return data.sort((a: any, b: any) => a.name.localeCompare(b.name));
@@ -64,12 +64,12 @@ function Inventory() {
 
   const updateStock = async (id: string, patch: Partial<{ stockOnline: number; stockStore: number }>) => {
     try {
-      const existingRes = await fetch(`http://localhost:8081/api/products/${id}`);
+      const existingRes = await fetch(`https://webbandep-2.onrender.com/api/products/${id}`);
       if (!existingRes.ok) throw new Error("Product not found");
       const product = await existingRes.json();
       const updated = { ...product, ...patch };
 
-      const res = await fetch(`http://localhost:8081/api/products/${id}`, {
+      const res = await fetch(`https://webbandep-2.onrender.com/api/products/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updated),
@@ -102,7 +102,7 @@ function Inventory() {
         stockStore: 0,
         active: true,
       };
-      const res = await fetch("http://localhost:8081/api/products", {
+      const res = await fetch("https://webbandep-2.onrender.com/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

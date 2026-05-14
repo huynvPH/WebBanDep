@@ -29,7 +29,7 @@ function LoginPage() {
   const signIn = async () => {
     setBusy(true);
     try {
-      const res = await fetch("http://localhost:8081/api/auth/login", {
+      const res = await fetch("https://webbandep-2.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
@@ -54,7 +54,7 @@ function LoginPage() {
     }
     setBusy(true);
     try {
-      const res = await fetch("http://localhost:8081/api/profiles", {
+      const res = await fetch("https://webbandep-2.onrender.com/api/profiles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fullName: name, username, password })

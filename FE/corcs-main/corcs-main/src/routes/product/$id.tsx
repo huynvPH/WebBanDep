@@ -15,7 +15,7 @@ function ProductDetail() {
   const { data: p, isLoading } = useQuery({
     queryKey: ["product", id],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8081/api/products/${id}`);
+      const res = await fetch(`https://webbandep-2.onrender.com/api/products/${id}`);
       if (!res.ok) throw new Error("Product not found");
       return await res.json();
     },

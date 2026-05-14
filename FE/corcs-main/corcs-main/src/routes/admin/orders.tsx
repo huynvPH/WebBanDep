@@ -24,7 +24,7 @@ function Orders() {
   const { data: orders = [] } = useQuery({
     queryKey: ["all-orders"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8081/api/orders");
+      const res = await fetch("https://webbandep-2.onrender.com/api/orders");
       if (!res.ok) throw new Error("Failed to fetch orders");
       const data = await res.json();
       return data.sort((a: any, b: any) => new Date(b.createdAt || b.created_at || 0).getTime() - new Date(a.createdAt || a.created_at || 0).getTime());
@@ -33,11 +33,11 @@ function Orders() {
 
   const setStatus = async (id: string, status: string) => {
     try {
-      const orderRes = await fetch(`http://localhost:8081/api/orders/${id}`);
+      const orderRes = await fetch(`https://webbandep-2.onrender.com/api/orders/${id}`);
       if (!orderRes.ok) throw new Error("Order not found");
       const order = await orderRes.json();
       const updated = { ...order, status };
-      const res = await fetch(`http://localhost:8081/api/orders/${id}`, {
+      const res = await fetch(`https://webbandep-2.onrender.com/api/orders/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updated),

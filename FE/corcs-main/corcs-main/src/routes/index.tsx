@@ -16,7 +16,7 @@ function Home() {
   const { data: products = [] } = useQuery({
     queryKey: ["featured"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8081/api/products");
+      const res = await fetch("https://webbandep-2.onrender.com/api/products");
       if (!res.ok) throw new Error("Failed to fetch products");
       const data = await res.json();
       return data

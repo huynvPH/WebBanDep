@@ -36,9 +36,9 @@ function Overview() {
     queryKey: ["overview"],
     queryFn: async () => {
       const [ordersRes, productsRes, rolesRes] = await Promise.all([
-        fetch("http://localhost:8081/api/orders"),
-        fetch("http://localhost:8081/api/products"),
-        fetch("http://localhost:8081/api/user-roles"),
+        fetch("https://webbandep-2.onrender.com/api/orders"),
+        fetch("https://webbandep-2.onrender.com/api/products"),
+        fetch("https://webbandep-2.onrender.com/api/user-roles"),
       ]);
       const [orders, products, roles] = await Promise.all([
         ordersRes.ok ? ordersRes.json() : [],

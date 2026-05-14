@@ -73,7 +73,7 @@ function POS() {
   const { data: products = [] } = useQuery({
     queryKey: ["pos-products", search, quickCharms],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8081/api/products");
+      const res = await fetch("https://webbandep-2.onrender.com/api/products");
       if (!res.ok) throw new Error("Failed to fetch products");
       let data = await res.json();
       data = data.filter((p: any) => p.active);
@@ -132,7 +132,7 @@ function POS() {
         totalAmount: total,
         customerName: customer || "Khách lẻ",
       };
-      const res = await fetch("http://localhost:8081/api/orders", {
+      const res = await fetch("https://webbandep-2.onrender.com/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -143,7 +143,7 @@ function POS() {
       // Create order items
       await Promise.all(
         lines.map((l) =>
-          fetch("http://localhost:8081/api/order-items", {
+          fetch("https://webbandep-2.onrender.com/api/order-items", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

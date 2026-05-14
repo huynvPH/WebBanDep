@@ -25,8 +25,8 @@ function Users() {
     queryKey: ["users-roles"],
     queryFn: async () => {
       const [pRes, rRes] = await Promise.all([
-        fetch("http://localhost:8081/api/profiles"),
-        fetch("http://localhost:8081/api/user-roles"),
+        fetch("https://webbandep-2.onrender.com/api/profiles"),
+        fetch("https://webbandep-2.onrender.com/api/user-roles"),
       ]);
       const [p, r] = await Promise.all([
         pRes.ok ? pRes.json() : [],
@@ -45,11 +45,11 @@ function Users() {
         // Need to find the role ID first to delete
         const r = data.roles.find((r: any) => (r.userId === uid || r.user_id === uid) && r.role === role);
         if (r && r.id) {
-          const res = await fetch(`http://localhost:8081/api/user-roles/${r.id}`, { method: "DELETE" });
+          const res = await fetch(`https://webbandep-2.onrender.com/api/user-roles/${r.id}`, { method: "DELETE" });
           if (!res.ok) throw new Error("Failed to delete role");
         }
       } else {
-        const res = await fetch("http://localhost:8081/api/user-roles", {
+        const res = await fetch("https://webbandep-2.onrender.com/api/user-roles", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: uid, role }),

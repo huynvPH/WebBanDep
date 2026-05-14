@@ -57,7 +57,7 @@ function Checkout() {
       paymentStatus: "unpaid",
     };
     try {
-      const res = await fetch("http://localhost:8081/api/orders", {
+      const res = await fetch("https://webbandep-2.onrender.com/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -67,7 +67,7 @@ function Checkout() {
 
       await Promise.all(
         items.map((it) =>
-          fetch("http://localhost:8081/api/order-items", {
+          fetch("https://webbandep-2.onrender.com/api/order-items", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -94,10 +94,10 @@ function Checkout() {
   const onPaid = async () => {
     if (!placedOrder) return;
     try {
-      const existingRes = await fetch(`http://localhost:8081/api/orders/${placedOrder.id}`);
+      const existingRes = await fetch(`https://webbandep-2.onrender.com/api/orders/${placedOrder.id}`);
       if (existingRes.ok) {
         const order = await existingRes.json();
-        await fetch(`http://localhost:8081/api/orders/${placedOrder.id}`, {
+        await fetch(`https://webbandep-2.onrender.com/api/orders/${placedOrder.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...order, paymentStatus: "paid", status: "shipped" }),
