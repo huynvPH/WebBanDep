@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginSuccessRouteImport } from './routes/login-success'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CartRouteImport } from './routes/cart'
@@ -26,6 +27,11 @@ import { Route as AdminPosRouteImport } from './routes/admin/pos'
 import { Route as AdminOrdersRouteImport } from './routes/admin/orders'
 import { Route as AdminInventoryRouteImport } from './routes/admin/inventory'
 
+const LoginSuccessRoute = LoginSuccessRouteImport.update({
+  id: '/login-success',
+  path: '/login-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pos': typeof AdminPosRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pos': typeof AdminPosRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pos': typeof AdminPosRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/checkout'
     | '/login'
+    | '/login-success'
     | '/admin/inventory'
     | '/admin/orders'
     | '/admin/pos'
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/checkout'
     | '/login'
+    | '/login-success'
     | '/admin/inventory'
     | '/admin/orders'
     | '/admin/pos'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/checkout'
     | '/login'
+    | '/login-success'
     | '/admin/inventory'
     | '/admin/orders'
     | '/admin/pos'
@@ -224,6 +236,7 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
   LoginRoute: typeof LoginRoute
+  LoginSuccessRoute: typeof LoginSuccessRoute
   ProductIdRoute: typeof ProductIdRoute
   ShopCharmsRoute: typeof ShopCharmsRoute
   ShopClogsRoute: typeof ShopClogsRoute
@@ -232,6 +245,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login-success': {
+      id: '/login-success'
+      path: '/login-success'
+      fullPath: '/login-success'
+      preLoaderRoute: typeof LoginSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -374,6 +394,7 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
   LoginRoute: LoginRoute,
+  LoginSuccessRoute: LoginSuccessRoute,
   ProductIdRoute: ProductIdRoute,
   ShopCharmsRoute: ShopCharmsRoute,
   ShopClogsRoute: ShopClogsRoute,
