@@ -2,14 +2,16 @@ package com.example.thi.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "profiles")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Profile {
