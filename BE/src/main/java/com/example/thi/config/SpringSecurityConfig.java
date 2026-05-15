@@ -77,6 +77,12 @@ public class SpringSecurityConfig {
 
                 .csrf(csrfConfig -> csrfConfig.disable())
 
+                .oauth2Login(oauth2 -> oauth2
+                    .userInfoEndpoint(userInfo -> userInfo
+                        .userService(customOAuth2UserService)
+                    )
+                    .successHandler(oAuth2LoginSuccessHandler)
+                )
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(HttpMethod.GET, "/**").permitAll();
                     authorize.requestMatchers(HttpMethod.POST, "/**").permitAll();
@@ -84,12 +90,6 @@ public class SpringSecurityConfig {
                     authorize.requestMatchers(HttpMethod.DELETE, "/**").permitAll();
                     authorize.anyRequest().authenticated();
                 })
-                .oauth2Login(oauth2 -> oauth2
-                    .userInfoEndpoint(userInfo -> userInfo
-                        .userService(customOAuth2UserService)
-                    )
-                    .successHandler(oAuth2LoginSuccessHandler)
-                )
                 .httpBasic(Customizer.withDefaults());
 
 
