@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Profile {
+    // Thêm comment để ép buộc Render biên dịch lại file này
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
