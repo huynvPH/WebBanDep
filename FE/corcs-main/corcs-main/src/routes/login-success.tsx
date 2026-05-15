@@ -14,7 +14,8 @@ function LoginSuccessPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:8081/api/auth/me", {
+        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8081";
+        const res = await fetch(`${apiUrl}/api/auth/me`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           // Rất quan trọng: cho phép gửi session cookie giữa các cổng

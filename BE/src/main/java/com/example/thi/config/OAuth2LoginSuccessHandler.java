@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -27,6 +28,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     @Autowired
     private UserRoleRepository userRoleRepository;
 
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
@@ -38,7 +42,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         
         if (p == null) {
             System.err.println("CRITICAL: Profile not found for email " + email + " after OAuth2 success");
-            response.sendRedirect("http://localhost:5173/login?error=user_not_found");
+            response.sendRedirect(frontendUrl + "/login?error=user_not_found");
             return;
         }
 
@@ -52,7 +56,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         System.out.println("Redirecting to frontend for user: " + p.getUsername());
 
         // Không tự động chuyển hướng nữa để tránh bị trình duyệt chặn
-        String targetUrl = "http://localhost:8080/login-success";
+        String targetUrl = frontendUrl + "/login-success";
 
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().write(

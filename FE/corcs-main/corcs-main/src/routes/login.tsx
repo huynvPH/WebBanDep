@@ -108,7 +108,10 @@ function LoginPage() {
               <Button 
                 variant="outline" 
                 className="w-full rounded-full" 
-                onClick={() => window.location.href = "http://localhost:8081/oauth2/authorization/google"}
+                onClick={() => {
+                  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8081";
+                  window.location.href = `${apiUrl}/oauth2/authorization/google`;
+                }}
               >
                 <Mail className="mr-2 h-4 w-4" />
                 Google
