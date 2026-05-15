@@ -16,7 +16,8 @@ function Home() {
   const { data: products = [] } = useQuery({
     queryKey: ["featured"],
     queryFn: async () => {
-      const res = await fetch("https://webbandep-2.onrender.com/api/products");
+      const apiUrl = import.meta.env.VITE_API_URL || "https://webbandep-2.onrender.com";
+      const res = await fetch(`${apiUrl}/api/products`);
       if (!res.ok) throw new Error("Failed to fetch products");
       const data = await res.json();
       return data

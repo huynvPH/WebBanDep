@@ -11,7 +11,8 @@ export function ShopPage({ category }: { category?: "clog" | "charm" }) {
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", category ?? "all"],
     queryFn: async () => {
-      const res = await fetch("https://webbandep-2.onrender.com/api/products");
+      const apiUrl = import.meta.env.VITE_API_URL || "https://webbandep-2.onrender.com";
+      const res = await fetch(`${apiUrl}/api/products`);
       if (!res.ok) throw new Error("Failed to fetch products");
       let data = await res.json();
       data = data.filter((p: any) => p.active);
