@@ -81,6 +81,8 @@ public class SpringSecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        System.out.println("=== LOADING SPRING SECURITY CONFIGURATION ===");
+        System.out.println("Frontend URL: " + frontendUrl);
 
         http
                 .cors(Customizer.withDefaults())
@@ -94,6 +96,7 @@ public class SpringSecurityConfig {
                     .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/oauth2/**", "/login/**").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/**").permitAll();
                     authorize.requestMatchers(HttpMethod.POST, "/**").permitAll();
                     authorize.requestMatchers(HttpMethod.PUT, "/**").permitAll();
