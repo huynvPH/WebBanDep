@@ -12,21 +12,34 @@ function LoginSuccessPage() {
   const { setUser } = useAuth();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
-    const username = urlParams.get("username");
-    const fullName = urlParams.get("fullName");
-    const role = urlParams.get("role");
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("http://localhost:8081/api/auth/me", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          // Rất quan trọng: cho phép gửi session cookie giữa các cổng
+          //@ts-ignore
+          credentials: "include" 
+        });
 
-    if (id && username) {
-      const userData = { id, username, fullName, role };
-      setUser(userData);
-      toast.success("Đăng nhập Google thành công!");
-      navigate({ to: "/" });
-    } else {
-      toast.error("Đăng nhập thất bại, vui lòng thử lại.");
-      navigate({ to: "/login" });
-    }
+        if (res.ok) {
+          const userData = await res.json();
+          console.log("User data received:", userData);
+          setUser(userData);
+          toast.success("Đăng nhập Google thành công!");
+          navigate({ to: "/" });
+        } else {
+          console.error("Auth me failed with status:", res.status);
+          throw new Error("Xác thực thất bại: " + res.status);
+        }
+      } catch (error) {
+        console.error("Fetch error details:", error);
+        toast.error("Không thể lấy thông tin người dùng: " + (error as Error).message);
+        navigate({ to: "/login" });
+      }
+    };
+
+    fetchUser();
   }, [navigate, setUser]);
 
   return (

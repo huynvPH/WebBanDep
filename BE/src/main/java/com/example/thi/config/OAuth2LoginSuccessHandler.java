@@ -31,26 +31,41 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = oAuth2User.getAttribute("email");
+        System.out.println("OAuth2 Login Success for email: " + email);
 
         Profile p = profileRepository.findByEmail(email);
         String role = "customer";
-        if (p != null) {
-            List<UserRole> roles = userRoleRepository.findAll().stream()
-                    .filter(r -> r.getUserId() != null && r.getUserId().equals(p.getId()))
-                    .collect(Collectors.toList());
-            if (!roles.isEmpty()) {
-                role = roles.get(0).getRole();
-            }
+        
+        if (p == null) {
+            System.err.println("CRITICAL: Profile not found for email " + email + " after OAuth2 success");
+            response.sendRedirect("http://localhost:5173/login?error=user_not_found");
+            return;
         }
 
-        // Tạo URL quay lại frontend kèm thông tin user (để demo, ta dùng query param - thực tế nên dùng JWT)
-        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173/login-success")
-                .queryParam("id", p.getId())
-                .queryParam("username", p.getUsername())
-                .queryParam("fullName", p.getFullName())
-                .queryParam("role", role)
-                .build().toUriString();
+        List<UserRole> roles = userRoleRepository.findAll().stream()
+                .filter(r -> r.getUserId() != null && r.getUserId().equals(p.getId()))
+                .collect(Collectors.toList());
+        if (!roles.isEmpty()) {
+            role = roles.get(0).getRole();
+        }
 
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        System.out.println("Redirecting to frontend for user: " + p.getUsername());
+
+        // Không tự động chuyển hướng nữa để tránh bị trình duyệt chặn
+        String targetUrl = "http://localhost:8080/login-success";
+
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().write(
+            "<html>" +
+            "<head><meta charset='UTF-8'></head>" +
+            "<body style='display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif;'>" +
+            "   <div style='padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;'>" +
+            "       <h2 style='color: #10b981;'>Đăng nhập Google thành công!</h2>" +
+            "       <p>Chào mừng <b>" + p.getFullName() + "</b> quay trở lại.</p>" +
+            "       <a href='" + targetUrl + "' style='display: inline-block; margin-top: 20px; padding: 12px 30px; background-color: #3b82f6; color: white; text-decoration: none; border-radius: 99px; font-weight: bold;'>Tiếp tục quay lại trang web</a>" +
+            "   </div>" +
+            "</body>" +
+            "</html>"
+        );
     }
 }
