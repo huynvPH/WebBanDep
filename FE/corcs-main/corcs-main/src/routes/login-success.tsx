@@ -41,7 +41,7 @@ function LoginSuccessPage() {
     };
 
     fetchUser();
-  }, [navigate, setUser]);
+  }, []);
 
   return (
     <div className="flex min-h-screen items-center justify-center">
