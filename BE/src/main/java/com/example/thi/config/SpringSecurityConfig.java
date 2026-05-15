@@ -42,8 +42,13 @@ public class SpringSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Cho phép cả localhost và địa chỉ web thật từ biến môi trường
-        configuration.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:5173", frontendUrl));
+        // Sử dụng OriginPatterns để linh hoạt hơn và tránh lỗi so khớp cứng nhắc
+        configuration.setAllowedOriginPatterns(List.of(
+            "http://localhost:[*]", 
+            "http://127.0.0.1:[*]",
+            "https://*.workers.dev",
+            frontendUrl
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
