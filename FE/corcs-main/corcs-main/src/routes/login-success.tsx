@@ -14,7 +14,7 @@ function LoginSuccessPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8081";
+        const apiUrl = import.meta.env.VITE_API_URL || "https://webbandep-2.onrender.com";
         const res = await fetch(`${apiUrl}/api/auth/me`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },

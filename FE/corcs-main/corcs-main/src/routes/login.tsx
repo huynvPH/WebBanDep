@@ -109,7 +109,8 @@ function LoginPage() {
                 variant="outline" 
                 className="w-full rounded-full" 
                 onClick={() => {
-                  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8081";
+                  // Ưu tiên dùng biến môi trường, nếu không có thì dùng link Render thật luôn
+                  const apiUrl = import.meta.env.VITE_API_URL || "https://webbandep-2.onrender.com";
                   window.location.href = `${apiUrl}/oauth2/authorization/google`;
                 }}
               >
