@@ -25,6 +25,12 @@ import java.util.List;
 @EnableMethodSecurity
 public class SpringSecurityConfig {
 
+    @Autowired
+    private com.example.thi.service.CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         org.springframework.web.cors.CorsConfiguration configuration = new CorsConfiguration();
@@ -83,6 +89,12 @@ public class SpringSecurityConfig {
                     authorize.requestMatchers(HttpMethod.DELETE, "/**").permitAll();
                     authorize.anyRequest().authenticated();
                 })
+                .oauth2Login(oauth2 -> oauth2
+                    .userInfoEndpoint(userInfo -> userInfo
+                        .userService(customOAuth2UserService)
+                    )
+                    .successHandler(oAuth2LoginSuccessHandler)
+                )
                 .httpBasic(Customizer.withDefaults());
 
 

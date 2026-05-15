@@ -28,5 +28,12 @@ public class Profile {
     @Column(unique = true)
     private String username;
 
+    @Column(nullable = true)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider = AuthProvider.LOCAL;
+
+    @Column(name = "provider_id")
+    private String providerId;
 }

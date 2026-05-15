@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { Mail } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
   validateSearch: z.object({ redirect: z.string().optional() }),
@@ -96,6 +97,22 @@ function LoginPage() {
               <div><Label>Tài khoản</Label><Input value={username} onChange={(e) => setUsername(e.target.value)} className="mt-1" /></div>
               <div><Label>Mật khẩu</Label><Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1" /></div>
               <Button className="w-full rounded-full" onClick={signIn} disabled={busy}>{busy ? "Đang đăng nhập…" : "Đăng nhập"}</Button>
+              
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Hoặc tiếp tục với</span>
+                </div>
+              </div>
+
+              <Button 
+                variant="outline" 
+                className="w-full rounded-full" 
+                onClick={() => window.location.href = "http://localhost:8081/oauth2/authorization/google"}
+              >
+                <Mail className="mr-2 h-4 w-4" />
+                Google
+              </Button>
             </TabsContent>
             <TabsContent value="signup" className="mt-6 space-y-4">
               <div><Label>Họ và tên</Label><Input value={name} onChange={(e) => setName(e.target.value)} className="mt-1" /></div>
